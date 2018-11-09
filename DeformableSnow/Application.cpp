@@ -2,16 +2,17 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include "Logger.hpp"
+#include "Obfuscator.hpp"
 
 namespace {
 	Application* gGLApp = nullptr;
 }
 
-void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mode);
-void mousePosCallback(GLFWwindow* window, double xpos, double ypos);
-void mouseBtnCallback(GLFWwindow* window, int btn, int action, int mods);
-void scrollCallback(GLFWwindow* window, double xoffset, double yoffset);
-void resizingCallback(GLFWwindow* window, int newWidth, int newHeight);
+void localKeyCallback(GLFWwindow* window, int key, int scancode, int action, int mode);
+void localMousePosCallback(GLFWwindow* window, double xpos, double ypos);
+void localMouseBtnCallback(GLFWwindow* window, int btn, int action, int mods);
+void localScrollCallback(GLFWwindow* window, double xoffset, double yoffset);
+void localResizingCallback(GLFWwindow* window, int newWidth, int newHeight);
 
 Application::Application() {
 	gGLApp = this;
@@ -19,12 +20,13 @@ Application::Application() {
 
 Application::~Application() {
 	glfwTerminate();
+	gGLApp = nullptr;
 }
 
 bool Application::initContext(void) {
 	if (!glfwInit())
 	{
-		ERROR_LOG("GLFW initialization failed.");
+		ERROR_LOG(OBFUSCATE("GLFW initialization failed."));
 		return false;
 	}
 
@@ -55,7 +57,7 @@ bool Application::initContext(void) {
 	if (!window)
 	{
 		glfwTerminate();
-		ERROR_LOG("GLFW Window Creating failed.");
+		ERROR_LOG(OBFUSCATE("GLFW Window Creating failed."));
 		return false;
 	}
 
@@ -64,39 +66,56 @@ bool Application::initContext(void) {
 	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
 	{
 		glfwTerminate();
-		ERROR_LOG("GLAD loading opengl functions failed.");
+		ERROR_LOG(OBFUSCATE("GLAD loading opengl functions failed."));
 		return false;
 	}
 
 	const GLubyte* vendor = glGetString(GL_VENDOR);
 	const GLubyte* renderer = glGetString(GL_RENDERER);
 
-	INFO_LOG("Vendor : {:<15}, Renderer : {:<15}", vendor, renderer);
+	INFO_LOG(OBFUSCATE("Vendor : {:<15}, Renderer : {:<15}"), vendor, renderer);
 
 	return true;
 }
 
 void Application::registerCallback(void) {
-	glfwSetKeyCallback(window, keyCallback);
-	glfwSetMouseButtonCallback(window, mouseBtnCallback);
-	glfwSetCursorPosCallback(window, mousePosCallback);
-	glfwSetFramebufferSizeCallback(window, resizingCallback);
-	glfwSetScrollCallback(window, scrollCallback);
+	glfwSetKeyCallback(window, localKeyCallback);
+	glfwSetMouseButtonCallback(window, localMouseBtnCallback);
+	glfwSetCursorPosCallback(window, localMousePosCallback);
+	glfwSetFramebufferSizeCallback(window, localResizingCallback);
+	glfwSetScrollCallback(window, localScrollCallback);
 	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 }
 
-void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mode) {
+void Application::runApplication(void) {
+	//timer reset
+	
+
+	while (!glfwWindowShouldClose(window)) {
+
+
+
+		glfwPollEvents();
+		glfwSwapBuffers(window);
+	}
+}
+
+void Application::resizingCallback(int newWidth, int newHeight) {
+}
+
+void localKeyCallback(GLFWwindow* window, int key, int scancode, int action, int mode) {
+	if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
+		glfwSetWindowShouldClose(window, GLFW_TRUE);
+}
+void localMousePosCallback(GLFWwindow* window, double xpos, double ypos) {
 
 }
-void mousePosCallback(GLFWwindow* window, double xpos, double ypos) {
+void localMouseBtnCallback(GLFWwindow* window, int btn, int action, int mods) {
 
 }
-void mouseBtnCallback(GLFWwindow* window, int btn, int action, int mods) {
+void localScrollCallback(GLFWwindow* window, double xoffset, double yoffset) {
 
 }
-void scrollCallback(GLFWwindow* window, double xoffset, double yoffset) {
-
-}
-void resizingCallback(GLFWwindow* window, int newWidth, int newHeight) {
+void localResizingCallback(GLFWwindow* window, int newWidth, int newHeight) {
 
 }

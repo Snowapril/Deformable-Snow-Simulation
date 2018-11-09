@@ -14,17 +14,17 @@ public:
 };
 
 #ifdef _DEBUG
-#define INIT_LOGGER() { Logger::getMutableInstance().initLogger(spdlog::level::trace); }
+#define INIT_LOGGER() ( Logger::getMutableInstance().initLogger(spdlog::level::trace))
 #else
-#define INIT_LOGGER() { Logger::getMutableInstance().initLogger(spdlog::level::warn);  }
+#define INIT_LOGGER() ( Logger::getMutableInstance().initLogger(spdlog::level::warn))
 #endif
 
 #ifdef _DEBUG
-#define INFO_LOG(format, ...)  {Logger::getConstInstance().getConsole()->info((format), __VA_ARGS__);		}
+#define INFO_LOG(format, ...)  (Logger::getConstInstance().getConsole()->info((format), __VA_ARGS__))
 #else
 #define INFO_LOG(format, ...) 
 #endif
 
-#define ERROR_LOG(format, ...) { Logger::getConstInstance().getConsole()->error((format), __VA_ARGS__);	}
+#define ERROR_LOG(format, ...) ( Logger::getConstInstance().getConsole()->error((format), __VA_ARGS__))
 
 #endif //LOGGER_HPP

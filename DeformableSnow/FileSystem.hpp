@@ -8,8 +8,9 @@
 class FileSystem : public Singleton<FileSystem> {
 	using path_table = std::unordered_map<std::string, std::string>;
 public:
+	void setRootPath(std::string path);
 	void addTable(std::string key, std::string value);
-	std::string getWorkingDir(std::string key, std::string path);
+	std::string getFullPath(std::string key, std::string path);
 private:
 	std::string rootPath;
 	path_table table;
