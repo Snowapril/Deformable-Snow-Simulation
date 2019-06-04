@@ -1,0 +1,12 @@
+[submodule "DeformableSnow/Libraries/glm"]
+	path = DeformableSnow/Libraries/glm
+	url = https://github.com/g-truc/glm
+[submodule "DeformableSnow/Libraries/fmt"]
+	path = DeformableSnow/Libraries/fmt
+	url = https://github.com/fmtlib/fmt
+[submodule "DeformableSnow/Libraries/spdlog"]
+	path = DeformableSnow/Libraries/spdlog
+	url = https://github.com/gabime/spdlog
+[submodule "DeformableSnow/Libraries/glfw"]
+	path = DeformableSnow/Libraries/glfw
+	url = https://github.com/glfw/glfw
