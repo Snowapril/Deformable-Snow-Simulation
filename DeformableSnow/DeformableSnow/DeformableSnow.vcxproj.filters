@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClInclude Include="Includes\ToonBitwise.h" />
+    <ClInclude Include="Includes\ToonCamera.h" />
+    <ClInclude Include="Includes\ToonExceptions.h" />
+    <ClInclude Include="Includes\ToonFilesystem.h" />
+    <ClInclude Include="Includes\ToonHeaderPostfix.h" />
+    <ClInclude Include="Includes\ToonHeaderPrefix.h" />
+    <ClInclude Include="Includes\ToonLogger.h" />
+    <ClInclude Include="Includes\ToonMaterial.h" />
+    <ClInclude Include="Includes\ToonMesh.h" />
+    <ClInclude Include="Includes\ToonObject.h" />
+    <ClInclude Include="Includes\ToonPlatform.h" />
+    <ClInclude Include="Includes\ToonPrerequisites.h" />
+    <ClInclude Include="Includes\ToonRenderSystem.h" />
+    <ClInclude Include="Includes\ToonRoot.h" />
+    <ClInclude Include="Includes\ToonTexture.h" />
+    <ClInclude Include="Includes\ToonTimer.h" />
+    <ClInclude Include="Precompiled\stdafx.h" />
+    <ClInclude Include="Includes\ToonNoncopyable.h" />
+    <ClInclude Include="Includes\ToonSingleton.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Sources\main.cpp" />
+    <ClCompile Include="Sources\ToonCamera.cpp" />
+    <ClCompile Include="Sources\ToonFilesystem.cpp" />
+    <ClCompile Include="Sources\ToonLogger.cpp" />
+    <ClCompile Include="Sources\ToonMesh.cpp" />
+    <ClCompile Include="Sources\ToonRenderSystem.cpp" />
+    <ClCompile Include="Sources\ToonRoot.cpp" />
+    <ClCompile Include="Sources\ToonTimer.cpp" />
+    <ClCompile Include="Precompiled\stdafx.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="CMakeLists.txt" />
+  </ItemGroup>
+</Project>
