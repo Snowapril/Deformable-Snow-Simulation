@@ -19,5 +19,4 @@
 #pragma warning( disable : 26437 )
 #pragma warning( disable :  4098 )
 #pragma warning( disable :  4819 )
-
 #endif

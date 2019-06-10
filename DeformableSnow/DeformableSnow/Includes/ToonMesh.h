@@ -1,12 +1,12 @@
-#ifndef TOON_STATIC_MESH_H
-#define TOON_STATIC_MESH_H
+#ifndef TOON_MESH_H
+#define TOON_MESH_H
 
 namespace Toon
 {
 	/****************************************************************************
 						Static Mesh class  declaration
 	****************************************************************************/
-	class StaticMesh
+	class Mesh
 	{
 	protected:
 		unsigned int VAO;
@@ -14,12 +14,12 @@ namespace Toon
 		unsigned int IBO;
 		unsigned int MeshFormat; // actually dummy variable for aligned memory
 	public:
-		StaticMesh() = default;
-		StaticMesh(void* _vertices, unsigned int _interpret_format) noexcept;
-		StaticMesh(StaticMesh const &);
-		StaticMesh& operator=(StaticMesh const &);
-		StaticMesh(StaticMesh&&);
-		StaticMesh& operator=(StaticMesh&&);
+		Mesh() = default;
+		Mesh(void* _vertices, unsigned int _interpret_format) noexcept;
+		Mesh(Mesh const &);
+		Mesh& operator=(Mesh const &);
+		Mesh(Mesh&&);
+		Mesh& operator=(Mesh&&);
 	public:
 		void bindMesh(void) const noexcept;
 		void unbindMesh(void) const noexcept;

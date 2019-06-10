@@ -6,6 +6,8 @@
 #include "ToonFileSystem.h"
 #include "ToonRenderSystem.h"
 #include "ToonExceptions.h"
+#include "ToonRenderSystem.h"
+#include "ToonInputSystem.h"
 
 #include <algorithm>
 
@@ -81,6 +83,11 @@ namespace Toon
 			timer.reset(new Timer());
 		}
 
+		if (InputSystem::isDestroyed())
+		{
+			inputSystem.reset(new InputSystem());
+		}
+
 		if (RenderSystem::isDestroyed())
 		{
 			renderSystem.reset(new RenderSystem());
@@ -93,17 +100,36 @@ namespace Toon
 		return true;
 	}
 
-	void ToonRoot::initialUpdate(void)
+	bool ToonRoot::initialUpdate(void)
 	{
+		if (renderSystem->initialUpdate() == false) return false;
+		return true;
+	}
 
+	void ToonRoot::preUpdateScene(float dt)
+	{
+	}
+
+	void ToonRoot::updateScene(float dt)
+	{
+	}
+
+	void ToonRoot::preDrawScene(void) const
+	{
+		renderSystem->preDrawScene();
+	}
+
+	void ToonRoot::drawScene(void) const
+	{
+		renderSystem->drawScene();
 	}
 
 	void ToonRoot::release(void)
 	{
 		// releasing order must be exactly reverse of initialization order
 		renderSystem.reset();
+		inputSystem.reset();
 		timer.reset();
-
 		//except these
 		filesystem.reset();
 		logger.reset();
@@ -112,8 +138,32 @@ namespace Toon
 	int ToonRoot::runMainLoop(void) noexcept
 	{
 		timer->reset();
-		initialUpdate();
+		if (initialUpdate() == false)
+		{
+			logger->errorMessage("[Root] initial update failed");
+			return -1;
+		}
 
-		return renderSystem->runMainLoop();
+		while (!renderSystem->getWindowShouldClose())
+		{
+			timer->tick();
+			float dt = timer->getDeltaTime();
+			float totalTime = timer->getTotalTime();
+
+			if (timer->isPaused())
+			{
+				SleepCrossPlatform(100U);
+			}
+			else
+			{
+				
+				preUpdateScene(dt); // 1) pre-simulation step
+				updateScene(dt);    // 2) simulation	 step
+				preDrawScene();	    // 3) pre-draw		 step
+				drawScene();	    // 4) darw  		 step
+			}
+		}
+
+		return 0;
 	}
 };

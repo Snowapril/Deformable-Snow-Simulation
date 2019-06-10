@@ -7,7 +7,6 @@ namespace Toon
 							Camera class  definition
 	****************************************************************************/
 	StaticCamera::StaticCamera()
-		: speed(0.0f)
 	{
 	}
 

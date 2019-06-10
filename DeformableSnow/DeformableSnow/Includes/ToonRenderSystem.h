@@ -18,29 +18,15 @@
 #include "ToonSingleton.h"
 struct GLFWwindow;
 
-/****************************************************************************
-						RenderSystem class declaration
-	****************************************************************************/
-
 namespace Toon
 {
-	void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mode);
-	void mousePosCallback(GLFWwindow* window, double xpos, double ypos);
-	void mouseBtnCallback(GLFWwindow* window, int btn, int action, int mods);
-	void scrollCallback(GLFWwindow* window, double xoffset, double yoffset);
-	void resizingCallback(GLFWwindow* window, int newWidth, int newHeight);
 	/****************************************************************************
-						GL3PlusRenderSystem class declaration
+						RenderSystem class declaration
 	****************************************************************************/
 	class RenderSystem : public Common::Singleton<RenderSystem>
 	{
-		friend void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mode);
-		friend void mousePosCallback(GLFWwindow* window, double xpos, double ypos);
-		friend void mouseBtnCallback(GLFWwindow* window, int btn, int action, int mods);
-		friend void scrollCallback(GLFWwindow* window, double xoffset, double yoffset);
-		friend void resizingCallback(GLFWwindow* window, int newWidth, int newHeight);
 	public:
-		RenderSystem();
+		RenderSystem() = default;
 		RenderSystem(std::string const& title, int width, int height, bool fullscreen = false) noexcept;
 		~RenderSystem() noexcept;
 
@@ -51,25 +37,21 @@ namespace Toon
 		// note : if this return {}, it means initialization was successful.
 		std::optional<std::string> initWindow(std::string const& title, int width, int height, bool fullscreen = false) noexcept;
 		bool initFromConfigFile(ToonResourceParser::INIParser const&) noexcept;
-
 		unsigned char const* getVendorString(void) const noexcept;
 		unsigned char const* getRendererString(void) const noexcept;
-	public:
-		int  runMainLoop(void) noexcept;
 		bool getWindowShouldClose(void) const noexcept;
-	protected:
+	public:
+		bool initialUpdate(void) noexcept;
 		void preDrawScene(void) const noexcept;
 		void drawScene(void) const noexcept;
-		void preUpdateScene(float dt) noexcept;
-		void updateScene(float dt) noexcept;
 	protected:
 		std::string wndCaption{};
+		GLFWwindow* window = nullptr;
 
 		int clientWidth{ 0 };
 		int clientHeight{ 0 };
 		bool bFullscreen{ false };
 		bool bUseGUI{ false };
-		GLFWwindow* window = nullptr;
 	};
 };
 

@@ -1,16 +1,23 @@
-#ifndef TOON-COLOR_H
+#ifndef TOON_COLOR_H
 #define TOON_COLOR_H
 
+#include "ToonHeaderPrefix.h"
 namespace Toon
 {
-	namespace Color
+	struct Color
 	{
-		float Red[4]	= { 1.0f, 0.0f, 0.0f, 1.0f };
-		float Green[4]	= { 0.0f, 1.0f, 0.0f, 1.0f };
-		float Blue[4]	= { 0.0f, 0.0f, 1.0f, 1.0f };
-		float Black[4]	= { 0.0f, 0.0f, 0.0f, 0.0f };
-		float White[4]	= { 1.0f, 1.0f, 1.0f, 1.0f };
+		float data[4] {0.0f, };
+
+		const static Color Red;
+		const static Color Green;
+		const static Color Blue;
+		const static Color Black;
+		const static Color White;
+
+		Color() = default;
+		Color(float, float, float, float) noexcept;
 	};
 };
 
+#include "ToonHeaderPostfix.h"
 #endif

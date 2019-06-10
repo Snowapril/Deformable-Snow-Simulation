@@ -18,7 +18,10 @@ namespace Toon
 	class Logger		;
 	class Bitwise		;
 	class RenderSystem	;
-	class StaticMesh	;
+	class Mesh			;
+	class Material		;
+	class InputSystem	;
+	class Effect		;
 };
 
 

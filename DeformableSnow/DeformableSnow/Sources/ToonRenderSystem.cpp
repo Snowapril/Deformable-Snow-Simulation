@@ -14,7 +14,7 @@
 #include "ToonTimer.h"
 #include "ToonFileSystem.h"
 #include "ToonExceptions.h"
-#include "ToonColor.h"
+#include "ToonInputSystem.h"
 
 namespace Common
 {
@@ -29,27 +29,27 @@ using namespace ToonResourceParser;
 
 namespace Toon
 {
+	void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mode);
+	void mousePosCallback(GLFWwindow* window, double xpos, double ypos);
+	void mouseBtnCallback(GLFWwindow* window, int btn, int action, int mods);
+	void scrollCallback(GLFWwindow* window, double xoffset, double yoffset);
+	void resizingCallback(GLFWwindow* window, int newWidth, int newHeight);
+
 	namespace
 	{
-		RenderSystem* gInstance = nullptr;
-	}
-
-	RenderSystem::RenderSystem()
-	{
-		gInstance = this;
+		InputSystem* gInputSystem = nullptr;
 	}
 
 	RenderSystem::RenderSystem(std::string const& title, int width, int height, bool fullscreen) noexcept
 	{
 		assert(!initWindow(title, width, height, fullscreen));
-		gInstance = this;
 	}
 
 	RenderSystem::~RenderSystem() noexcept
 	{
 		glfwTerminate();
+		gInputSystem = nullptr;
 		Toon::Logger::getConstInstance().infoMessage("[Singleton] {0:>40} ({1:p})", "Rendersystem instance is released", reinterpret_cast<void*>(instance));
-		gInstance = nullptr;
 	}
 
 	GLFWwindow const* RenderSystem::getWindow(void) const noexcept
@@ -149,6 +149,11 @@ namespace Toon
 	{
 		return glGetString(GL_RENDERER);
 	}
+	
+	bool RenderSystem::initialUpdate(void) noexcept
+	{
+		return true;
+	}
 
 	void RenderSystem::preDrawScene(void) const noexcept
 	{
@@ -162,40 +167,6 @@ namespace Toon
 		glfwPollEvents();
 	}
 
-	void RenderSystem::preUpdateScene(float dt) noexcept
-	{
-	}
-
-	void RenderSystem::updateScene(float dt) noexcept
-	{
-	}
-
-	int RenderSystem::runMainLoop(void) noexcept
-	{
-		auto& timer = Timer::getMutableInstance();
-
-		while (!glfwWindowShouldClose(window))
-		{
-			timer.tick();
-			float dt = timer.getDeltaTime();
-			float totalTime = timer.getTotalTime();
-
-			if (timer.isPaused())
-			{
-				SleepCrossPlatform(100U);
-			}
-			else
-			{
-				preUpdateScene(dt); // 1) pre-simulation step
-				updateScene(dt);    // 2) simulation	 step
-				preDrawScene();	    // 3) pre-draw		 step
-				drawScene();	    // 4) darw  		 step
-			}
-		}
-
-		return 0;
-	}
-
 	bool RenderSystem::getWindowShouldClose(void) const noexcept
 	{
 		return glfwWindowShouldClose(window);
@@ -203,9 +174,9 @@ namespace Toon
 
 	bool RenderSystem::initFromConfigFile(INIParser const& parser) noexcept
 	{
-		auto width = parser.getData<int>("RenderSystem.client_width");
-		auto height = parser.getData<int>("RenderSystem.client_height");
-		auto title = parser.getData<std::string>("RenderSystem.window_title");
+		auto width		= parser.getData<int>("RenderSystem.client_width");
+		auto height		= parser.getData<int>("RenderSystem.client_height");
+		auto title		= parser.getData<std::string>("RenderSystem.window_title");
 		auto fullscreen = parser.getData<bool>("RenderSystem.default_fullscreen");
 
 		if (AnyOf(!width, !height, !title, !fullscreen))
@@ -227,23 +198,28 @@ namespace Toon
 
 	void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mode)
 	{
-		if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
-			glfwSetWindowShouldClose(window, GLFW_TRUE);
+		if (gInputSystem == nullptr) return;
+		gInputSystem->processKeyCallback(key, scancode, action, mode);
 	}
+
 	void mousePosCallback(GLFWwindow * window, double xpos, double ypos)
 	{
-
+		if (gInputSystem == nullptr) return;
+		gInputSystem->processMousePosCallback(xpos, ypos);
 	}
 	void mouseBtnCallback(GLFWwindow * window, int btn, int action, int mods)
 	{
-
+		if (gInputSystem == nullptr) return;
+		gInputSystem->processMouseBtnCallback(btn, action, mods);
 	}
 	void scrollCallback(GLFWwindow * window, double xoffset, double yoffset)
 	{
-
+		if (gInputSystem == nullptr) return;
+		gInputSystem->processScrollCallback(xoffset, yoffset);
 	}
 	void resizingCallback(GLFWwindow * window, int newWidth, int newHeight)
 	{
-
+		if (gInputSystem == nullptr) return;
+		gInputSystem->processResizingCallback(newWidth, newHeight);
 	}
 };

@@ -38,21 +38,42 @@ namespace Toon
 	{
 		using super_t = Common::Singleton<ToonRoot>;
 	protected:
+		std::unique_ptr<InputSystem>		inputSystem;
 		std::unique_ptr<RenderSystem>		renderSystem;
 		std::unique_ptr<Logger>				logger;
 		std::unique_ptr<Filesystem>			filesystem;
 		std::unique_ptr<Timer>				timer;
 	protected:
 		/**
-		 * @brief 
-		 * 
+		 * @brief
+		 *
 		 */
-		void initialUpdate	(  void	 );
+		bool initialUpdate(void);
+		/**
+		 * @brief This step is for the preparing engine update and rendering, not for initialization of Engine.
+		 *
+		 */
+		void preUpdateScene(float dt);
+		/**
+		 * @brief
+		 *
+		 */
+		void updateScene(float dt);
+		/**
+		 * @brief
+		 *
+		 */
+		void preDrawScene(void) const;
+		/**
+		 * @brief
+		 *
+		 */
+		void drawScene(void) const;
 		/**
 		 * @brief This step is for releasing whole plugins of the engine root.
-		 * 
+		 *
 		 */
-		void release		(  void  );
+		void release(void);
 	private:
 		/**
 		 * @brief initialize the subsystems with given ini config file.

@@ -141,10 +141,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Includes\DeformableSnow.h" />
+    <ClInclude Include="Includes\ToonBaseObject.h" />
     <ClInclude Include="Includes\ToonBitwise.h" />
+    <ClInclude Include="Includes\ToonEffect.h" />
+    <ClInclude Include="Includes\ToonInputSystem.h" />
     <ClInclude Include="Includes\ToonStaticCamera.h" />
     <ClInclude Include="Includes\ToonColor.h" />
-    <ClInclude Include="Includes\ToonDynamicMesh.h" />
     <ClInclude Include="Includes\ToonExceptions.h" />
     <ClInclude Include="Includes\ToonFilesystem.h" />
     <ClInclude Include="Includes\ToonFormat.h" />
@@ -152,7 +154,7 @@
     <ClInclude Include="Includes\ToonHeaderPrefix.h" />
     <ClInclude Include="Includes\ToonLogger.h" />
     <ClInclude Include="Includes\ToonMaterial.h" />
-    <ClInclude Include="Includes\ToonStaticMesh.h" />
+    <ClInclude Include="Includes\ToonMesh.h" />
     <ClInclude Include="Includes\ToonNoncopyable.h" />
     <ClInclude Include="Includes\ToonObject.h" />
     <ClInclude Include="Includes\ToonPlatform.h" />
@@ -165,14 +167,17 @@
     <ClInclude Include="Precompiled\stdafx.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Sources\ToonColor.cpp" />
+    <ClCompile Include="Sources\ToonInputSystem.cpp" />
+    <ClCompile Include="Sources\ToonObject.cpp" />
     <ClCompile Include="Sources\DeformableSnow.cpp" />
     <ClCompile Include="Precompiled\stdafx.cpp" />
-    <ClCompile Include="Sources\DynamicMesh.cpp" />
     <ClCompile Include="Sources\main.cpp" />
+    <ClCompile Include="Sources\ToonEffect.cpp" />
     <ClCompile Include="Sources\ToonStaticCamera.cpp" />
     <ClCompile Include="Sources\ToonFilesystem.cpp" />
     <ClCompile Include="Sources\ToonLogger.cpp" />
-    <ClCompile Include="Sources\ToonStaticMesh.cpp" />
+    <ClCompile Include="Sources\ToonMesh.cpp" />
     <ClCompile Include="Sources\ToonRenderSystem.cpp" />
     <ClCompile Include="Sources\ToonRoot.cpp" />
     <ClCompile Include="Sources\ToonTimer.cpp" />

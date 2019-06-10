@@ -18,7 +18,7 @@ namespace Toon
 
 	bool DeformableSnow::resetTerrain(int _numVerticesPerUnit) noexcept
 	{
-		
+		return true;
 	}
 
 	void DeformableSnow::setTerrainSize(int _width, int _height) noexcept
@@ -31,14 +31,6 @@ namespace Toon
 	{
 		this->innerLOD = _innerLOD;
 		this->outerLOD = _outerLOD;
-	}
-
-	void DeformableSnow::preUpdateScene(float dt) noexcept
-	{
-	}
-
-	void DeformableSnow::updateScene(float dt) noexcept
-	{
 	}
 
 	void DeformableSnow::preDrawScene(void) const noexcept
