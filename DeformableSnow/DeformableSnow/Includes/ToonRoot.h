@@ -49,26 +49,6 @@ namespace Toon
 		 */
 		void initialUpdate	(  void	 );
 		/**
-		 * @brief This step is for the preparing engine update and rendering, not for initialization of Engine.
-		 * 
-		 */
-		void preUpdateScene	(float dt);
-		/**
-		 * @brief 
-		 * 
-		 */
-		void updateScene	(float dt);
-		/**
-		 * @brief 
-		 * 
-		 */
-		void preDrawScene	(  void  ) const;
-		/**
-		 * @brief 
-		 * 
-		 */
-		void drawScene		(  void  ) const;
-		/**
 		 * @brief This step is for releasing whole plugins of the engine root.
 		 * 
 		 */
@@ -97,10 +77,10 @@ namespace Toon
 		bool initialize(bool autoCreateWindow = true, std::string const & windowTitle = "Deformable Snow Simulation", std::string const & configFilePath = "");
 		/**
 		 * @brief run the main loop of the toon engine
-		 * 
+		 *
 		 * @return int return exit code.
 		 */
-		int  runMainLoop(void) noexcept; // this is only for testing ToonEngine. will be remove at later.
+		int  runMainLoop(void) noexcept; 
 	};
 };
 

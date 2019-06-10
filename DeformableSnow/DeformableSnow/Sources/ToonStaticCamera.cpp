@@ -1,55 +1,49 @@
 #include "stdafx.h"
-#include "ToonCamera.h"
+#include "ToonStaticCamera.h"
 
 namespace Toon
 {
 	/****************************************************************************
 							Camera class  definition
 	****************************************************************************/
-	Camera::Camera()
+	StaticCamera::StaticCamera()
 		: speed(0.0f)
 	{
 	}
 
-	Camera::Camera(Camera const & other)
-		: position(other.position), direction(other.direction), speed(other.speed)
+	StaticCamera::StaticCamera(StaticCamera const & other)
+		: position(other.position), direction(other.direction)
 	{
 	}
 
-	Camera::Camera(Camera && other)
-		: position(std::move(other.position)), direction(std::move(other.direction)), speed(other.speed)
+	StaticCamera::StaticCamera(StaticCamera&& other)
+		: position(std::move(other.position)), direction(std::move(other.direction))
 	{
 	}
 
-	Camera::~Camera()
+	StaticCamera::~StaticCamera()
 	{
 	}
 
-	Camera & Camera::operator=(Camera const & other)
+	StaticCamera& StaticCamera::operator=(StaticCamera const & other)
 	{
 		if ( &other != this )
 		{
 			position	= other.position	;
 			direction	= other.direction	;
-			speed		= other.speed		;
 		}
 
 		return *this;
 	}
 
-	Camera & Camera::operator=(Camera && other)
+	StaticCamera& StaticCamera::operator=(StaticCamera&& other)
 	{
 		if ( &other != this )
 		{
 			position	= std::move(other.position)	;
 			direction	= std::move(other.direction);
-			speed		= other.speed;
 		}
 
 		return *this;
-	}
-
-	void Camera::processInput( int key, int button )
-	{
 	}
 };

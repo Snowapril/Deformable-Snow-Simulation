@@ -85,6 +85,9 @@ namespace Toon
 		{
 			renderSystem.reset(new RenderSystem());
 			if (!renderSystem->initFromConfigFile(parser)) return false;
+			
+			logger->infoMessage("[Render] OpenGL RenderSystem initialization complete");
+			logger->infoMessage("[Render] Vendor : {}, Renderer : {}", renderSystem->getVendorString(), renderSystem->getRendererString());
 		}
 
 		return true;
@@ -92,24 +95,7 @@ namespace Toon
 
 	void ToonRoot::initialUpdate(void)
 	{
-	}
 
-	void ToonRoot::preUpdateScene(float dt)
-	{
-	}
-
-	void ToonRoot::updateScene(float dt)
-	{
-	}
-
-	void ToonRoot::preDrawScene(void) const
-	{
-		renderSystem->preDrawScene();
-	}
-
-	void ToonRoot::drawScene(void) const
-	{
-		renderSystem->drawScene();
 	}
 
 	void ToonRoot::release(void)
@@ -125,30 +111,9 @@ namespace Toon
 
 	int ToonRoot::runMainLoop(void) noexcept
 	{
-		//timer reset
 		timer->reset();
-		
 		initialUpdate();
 
-		while (!renderSystem->getWindowShouldClose())
-		{
-			timer->tick();
-			float dt		= timer->getDeltaTime();
-			float totalTime = timer->getTotalTime();
-
-			if (timer->isPaused())
-			{	
-				SleepCrossPlatform(100U);
-			}
-			else
-			{
-				preUpdateScene(dt); // 1) pre-simulation step
-				updateScene(dt);    // 2) simulation	 step
-				preDrawScene();	    // 3) pre-draw		 step
-				drawScene();	    // 4) darw  		 step
-			}
-		}
-
-		return 0;
+		return renderSystem->runMainLoop();
 	}
 };

@@ -18,12 +18,12 @@
 #include "ToonSingleton.h"
 struct GLFWwindow;
 
-namespace Toon
-{
-	/****************************************************************************
+/****************************************************************************
 						RenderSystem class declaration
 	****************************************************************************/
 
+namespace Toon
+{
 	void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mode);
 	void mousePosCallback(GLFWwindow* window, double xpos, double ypos);
 	void mouseBtnCallback(GLFWwindow* window, int btn, int action, int mods);
@@ -52,12 +52,16 @@ namespace Toon
 		std::optional<std::string> initWindow(std::string const& title, int width, int height, bool fullscreen = false) noexcept;
 		bool initFromConfigFile(ToonResourceParser::INIParser const&) noexcept;
 
-		auto getVendorString(void) const noexcept;
-		auto getRendererString(void) const noexcept;
+		unsigned char const* getVendorString(void) const noexcept;
+		unsigned char const* getRendererString(void) const noexcept;
 	public:
+		int  runMainLoop(void) noexcept;
+		bool getWindowShouldClose(void) const noexcept;
+	protected:
 		void preDrawScene(void) const noexcept;
 		void drawScene(void) const noexcept;
-		bool getWindowShouldClose(void) const noexcept;
+		void preUpdateScene(float dt) noexcept;
+		void updateScene(float dt) noexcept;
 	protected:
 		std::string wndCaption{};
 
@@ -68,6 +72,7 @@ namespace Toon
 		GLFWwindow* window = nullptr;
 	};
 };
+
 
 #include "ToonHeaderPostfix.h"
 

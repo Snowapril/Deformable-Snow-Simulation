@@ -1,34 +1,37 @@
 #include "stdafx.h"
 
-#include "ToonRenderSystem.h"
+#include "ToonHeaderPrefix.h"
 #include <glew/glew.h>
 #include <GLFW/glfw3.h>
-
 #ifndef FMT_HEADER_ONLY
 #define FMT_HEADER_ONLY
 #endif
 #include <fmt/format.h>
+#include "ToonHeaderPostfix.h"
 
+#include "ToonRenderSystem.h"
 #include "ToonLogger.h"
 #include "ToonTimer.h"
 #include "ToonFileSystem.h"
 #include "ToonExceptions.h"
+#include "ToonColor.h"
 
 namespace Common
 {
 	template <> Toon::RenderSystem* Singleton<Toon::RenderSystem>::instance = nullptr;
 }
 
+/****************************************************************************
+						RenderSystem class definition
+****************************************************************************/
+using namespace Common;
+using namespace ToonResourceParser;
+
 namespace Toon
 {
-	/****************************************************************************
-						RenderSystem class definition
-	****************************************************************************/
-	using namespace Common;
-	using namespace ToonResourceParser;
-
-	namespace {
-		Toon::RenderSystem* gInstance = nullptr;
+	namespace
+	{
+		RenderSystem* gInstance = nullptr;
 	}
 
 	RenderSystem::RenderSystem()
@@ -41,20 +44,24 @@ namespace Toon
 		assert(!initWindow(title, width, height, fullscreen));
 		gInstance = this;
 	}
+
 	RenderSystem::~RenderSystem() noexcept
 	{
 		glfwTerminate();
-		Logger::getConstInstance().infoMessage("[Singleton] {0:>40} ({1:p})", "Rendersystem instance is released", reinterpret_cast<void*>(instance));
+		Toon::Logger::getConstInstance().infoMessage("[Singleton] {0:>40} ({1:p})", "Rendersystem instance is released", reinterpret_cast<void*>(instance));
 		gInstance = nullptr;
 	}
+
 	GLFWwindow const* RenderSystem::getWindow(void) const noexcept
 	{
 		return window;
 	}
+
 	double RenderSystem::getAspectRatio(void) const noexcept
 	{
 		return static_cast<double>(clientWidth) / clientHeight;
 	}
+
 	std::optional<std::string> RenderSystem::initWindow(std::string const& title, int width, int height, bool fullscreen) noexcept
 	{
 		if (!glfwInit())
@@ -68,6 +75,7 @@ namespace Toon
 		this->clientHeight = height;
 		this->bFullscreen = fullscreen;
 
+		// Set opengl version as 4.3 and use core profile (no legacy opengl)
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 		glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
@@ -77,9 +85,9 @@ namespace Toon
 		glfwWindowHint(GLFW_OPENGL_COMPAT_PROFILE, GLFW_OPENGL_FORWARD_COMPAT);
 #endif
 
+		// Set monitor advanced settings
 		GLFWmonitor* glfwMonitor = glfwGetPrimaryMonitor();
 		GLFWvidmode const* glfwMode = glfwGetVideoMode(glfwMonitor);
-
 		glfwWindowHint(GLFW_RED_BITS, glfwMode->redBits);
 		glfwWindowHint(GLFW_GREEN_BITS, glfwMode->greenBits);
 		glfwWindowHint(GLFW_BLUE_BITS, glfwMode->blueBits);
@@ -106,6 +114,7 @@ namespace Toon
 
 		glfwMakeContextCurrent(window);
 
+		// Register callback functions to the current OpenGL context.
 		glfwSetKeyCallback(window, keyCallback);
 		glfwSetMouseButtonCallback(window, mouseBtnCallback);
 		glfwSetFramebufferSizeCallback(window, resizingCallback);
@@ -124,30 +133,67 @@ namespace Toon
 		CHECK_EXTENSION(shading_language_100);	// check your platform supports GLSL
 		CHECK_EXTENSION(vertex_buffer_object);	// BindBuffers, DeleteBuffers, GenBuffers, IsBuffer, BufferData, BufferSubData, GenBufferSubData, ...
 		CHECK_EXTENSION(vertex_shader);			// functions related to vertex shaders
-		CHECK_EXTENSION(fragment_shader);			// functions related to fragment shaders
-		CHECK_EXTENSION(shader_objects);			// functions related to program and shaders
+		CHECK_EXTENSION(fragment_shader);		// functions related to fragment shaders
+		CHECK_EXTENSION(shader_objects);		// functions related to program and shaders
 #undef CHECK_EXTENSION
 
-		return {};
+		return {}; // Initialization normally complete.
 	}
 
-	auto RenderSystem::getVendorString(void) const noexcept
+	unsigned char const* RenderSystem::getVendorString(void) const noexcept
 	{
 		return glGetString(GL_VENDOR);
 	}
-	auto RenderSystem::getRendererString(void) const noexcept
+
+	unsigned char const* RenderSystem::getRendererString(void) const noexcept
 	{
 		return glGetString(GL_RENDERER);
 	}
+
 	void RenderSystem::preDrawScene(void) const noexcept
 	{
 		glClear(GL_COLOR_BUFFER_BIT);
-		glClearColor(1.0, 0.0, 0.0, 1.0);
+		glClearColor(0.0, 0.0, 0.0, 1.0);
 	}
+
 	void RenderSystem::drawScene(void) const noexcept
 	{
 		glfwSwapBuffers(window);
 		glfwPollEvents();
+	}
+
+	void RenderSystem::preUpdateScene(float dt) noexcept
+	{
+	}
+
+	void RenderSystem::updateScene(float dt) noexcept
+	{
+	}
+
+	int RenderSystem::runMainLoop(void) noexcept
+	{
+		auto& timer = Timer::getMutableInstance();
+
+		while (!glfwWindowShouldClose(window))
+		{
+			timer.tick();
+			float dt = timer.getDeltaTime();
+			float totalTime = timer.getTotalTime();
+
+			if (timer.isPaused())
+			{
+				SleepCrossPlatform(100U);
+			}
+			else
+			{
+				preUpdateScene(dt); // 1) pre-simulation step
+				updateScene(dt);    // 2) simulation	 step
+				preDrawScene();	    // 3) pre-draw		 step
+				drawScene();	    // 4) darw  		 step
+			}
+		}
+
+		return 0;
 	}
 
 	bool RenderSystem::getWindowShouldClose(void) const noexcept
@@ -169,6 +215,7 @@ namespace Toon
 		}
 
 		auto initResult = initWindow(title.value(), width.value(), height.value(), fullscreen.value());
+		// if boolean value of initResult is true, it means it have error message in the given optional instance.
 		if (initResult)
 		{
 			Logger::getConstInstance().errorMessage("[RenderSystem] Initialization error occurred. {0}", initResult.value());

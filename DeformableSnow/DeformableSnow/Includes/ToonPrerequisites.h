@@ -13,11 +13,13 @@
 
 namespace Toon
 {
-	class Timer				;
-	class Filesystem		;
-	class Logger			;
-	class RenderSystem		;
-	class Bitwise			;
+	class Timer			;
+	class Filesystem	;
+	class Logger		;
+	class Bitwise		;
+	class RenderSystem	;
+	class StaticMesh	;
 };
+
 
 #endif // end of _TOON_PREREQUISITES_H
