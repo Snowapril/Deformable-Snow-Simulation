@@ -6,7 +6,7 @@ int main(void)
 	Toon::ToonRoot root;
 	int exitCode { -1 };
 
-	bool bInitResult = root.initialize(true, "DeformableSnowSimulation", "../Resources/engine_config.ini");
+	bool bInitResult = root.initialize("../Resources/engine_config.ini");
 
 	if (bInitResult == true) 
 		exitCode = root.runMainLoop();

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -144,15 +144,12 @@
     <ClInclude Include="Includes\ToonBaseObject.h" />
     <ClInclude Include="Includes\ToonBitwise.h" />
     <ClInclude Include="Includes\ToonEffect.h" />
-    <ClInclude Include="Includes\ToonInputSystem.h" />
     <ClInclude Include="Includes\ToonStaticCamera.h" />
     <ClInclude Include="Includes\ToonColor.h" />
     <ClInclude Include="Includes\ToonExceptions.h" />
-    <ClInclude Include="Includes\ToonFilesystem.h" />
     <ClInclude Include="Includes\ToonFormat.h" />
     <ClInclude Include="Includes\ToonHeaderPostfix.h" />
     <ClInclude Include="Includes\ToonHeaderPrefix.h" />
-    <ClInclude Include="Includes\ToonLogger.h" />
     <ClInclude Include="Includes\ToonMaterial.h" />
     <ClInclude Include="Includes\ToonMesh.h" />
     <ClInclude Include="Includes\ToonNoncopyable.h" />
@@ -168,15 +165,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Sources\ToonColor.cpp" />
-    <ClCompile Include="Sources\ToonInputSystem.cpp" />
     <ClCompile Include="Sources\ToonObject.cpp" />
     <ClCompile Include="Sources\DeformableSnow.cpp" />
     <ClCompile Include="Precompiled\stdafx.cpp" />
     <ClCompile Include="Sources\main.cpp" />
     <ClCompile Include="Sources\ToonEffect.cpp" />
     <ClCompile Include="Sources\ToonStaticCamera.cpp" />
-    <ClCompile Include="Sources\ToonFilesystem.cpp" />
-    <ClCompile Include="Sources\ToonLogger.cpp" />
     <ClCompile Include="Sources\ToonMesh.cpp" />
     <ClCompile Include="Sources\ToonRenderSystem.cpp" />
     <ClCompile Include="Sources\ToonRoot.cpp" />

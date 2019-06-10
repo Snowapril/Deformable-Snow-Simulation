@@ -1,13 +1,3 @@
-/**
- * @file ToonRenderSystem.h
- * @author snowapril (https://github.com/Snowapril)
- * @brief toon engien render system which inherit other specific render system such as opengl, vulkan and directx. at now, inherits opengl render system.
- * @version 0.1
- * @date 2019-05-25
- * 
- * @copyright Copyright (c) 2019
- * 
- */
 #ifndef TOON_RENDERSYSTEM_H
 #define TOON_RENDERSYSTEM_H
 
@@ -15,7 +5,6 @@
 #include "ToonPrerequisites.h"
 #include <string>
 #include <INIParser.h>
-#include "ToonSingleton.h"
 struct GLFWwindow;
 
 namespace Toon
@@ -23,12 +12,12 @@ namespace Toon
 	/****************************************************************************
 						RenderSystem class declaration
 	****************************************************************************/
-	class RenderSystem : public Common::Singleton<RenderSystem>
+	class RenderSystem
 	{
 	public:
-		RenderSystem() = default;
+		RenderSystem();
 		RenderSystem(std::string const& title, int width, int height, bool fullscreen = false) noexcept;
-		~RenderSystem() noexcept;
+		virtual ~RenderSystem() noexcept;
 
 		GLFWwindow const* getWindow(void) const noexcept;
 		double getAspectRatio(void) const noexcept;
@@ -40,10 +29,16 @@ namespace Toon
 		unsigned char const* getVendorString(void) const noexcept;
 		unsigned char const* getRendererString(void) const noexcept;
 		bool getWindowShouldClose(void) const noexcept;
+		void setWindowShouldClose(void) noexcept;
 	public:
-		bool initialUpdate(void) noexcept;
-		void preDrawScene(void) const noexcept;
-		void drawScene(void) const noexcept;
+		virtual void preDrawScene(void) const noexcept;
+		virtual void drawScene(void) const noexcept;
+
+		virtual void processKeyCallback(int key, int scancode, int action, int mode) noexcept = 0;
+		virtual void processMousePosCallback(double xpos, double ypos) noexcept = 0;
+		virtual void processMouseBtnCallback(int btn, int action, int mods) noexcept = 0;
+		virtual void processScrollCallback(double xoffset, double yoffset) noexcept = 0;
+		virtual void processResizingCallback(int newWidth, int newHeight) noexcept = 0;
 	protected:
 		std::string wndCaption{};
 		GLFWwindow* window = nullptr;
@@ -51,7 +46,6 @@ namespace Toon
 		int clientWidth{ 0 };
 		int clientHeight{ 0 };
 		bool bFullscreen{ false };
-		bool bUseGUI{ false };
 	};
 };
 

@@ -1,21 +1,8 @@
 #include "stdafx.h"
 #include "ToonTimer.h"
-#include "ToonLogger.h"
-
-namespace Common
-{
-	template <> Toon::Timer* Singleton<Toon::Timer>::instance = nullptr;
-}
 
 namespace Toon
 {
-	/****************************************************************************
-						Timer class definition
-	*********************************************************************** *****/
-	Timer::~Timer()
-	{
-		Logger::getConstInstance().infoMessage( "[Singleton] {0:>40} ({1:p})", "Timer instance is released", reinterpret_cast<void*>(instance));
-	}
 	void Timer::tick(void) noexcept
 	{
 		using namespace std::chrono;

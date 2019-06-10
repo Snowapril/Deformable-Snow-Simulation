@@ -7,7 +7,7 @@
 
 namespace Toon
 {
-	class DeformableSnow : public Common::Noncopyable
+	class DeformableSnow : public Noncopyable
 	{
 	public:
 		DeformableSnow(int _numVerticesPerUnit, int _width, int _height, int _innerLOD, int _outerLOD) noexcept;

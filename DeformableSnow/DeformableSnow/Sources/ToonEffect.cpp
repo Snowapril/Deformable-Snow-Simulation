@@ -2,7 +2,7 @@
 #include "ToonEffect.h"
 #include <string>
 #include <GLFX/glfx.h>
-#include "ToonLogger.h"
+#include <iostream>
 
 namespace Toon
 {
@@ -52,6 +52,6 @@ namespace Toon
 	void Effect::handleGLFXError(void) const
 	{
 		std::string errorLog = glfxGetEffectLog(effect);
-		Logger::getConstInstance().errorMessage("{}", errorLog);
+		std::cerr << errorLog << std::endl;
 	}
 };

@@ -10,21 +10,9 @@
 #include "ToonHeaderPostfix.h"
 
 #include "ToonRenderSystem.h"
-#include "ToonLogger.h"
 #include "ToonTimer.h"
-#include "ToonFileSystem.h"
 #include "ToonExceptions.h"
-#include "ToonInputSystem.h"
 
-namespace Common
-{
-	template <> Toon::RenderSystem* Singleton<Toon::RenderSystem>::instance = nullptr;
-}
-
-/****************************************************************************
-						RenderSystem class definition
-****************************************************************************/
-using namespace Common;
 using namespace ToonResourceParser;
 
 namespace Toon
@@ -37,19 +25,25 @@ namespace Toon
 
 	namespace
 	{
-		InputSystem* gInputSystem = nullptr;
+		RenderSystem* gInstance = nullptr;
+	}
+
+	RenderSystem::RenderSystem()
+	{
+		gInstance = this;
 	}
 
 	RenderSystem::RenderSystem(std::string const& title, int width, int height, bool fullscreen) noexcept
 	{
 		assert(!initWindow(title, width, height, fullscreen));
+		gInstance = this;
 	}
 
 	RenderSystem::~RenderSystem() noexcept
 	{
 		glfwTerminate();
-		gInputSystem = nullptr;
-		Toon::Logger::getConstInstance().infoMessage("[Singleton] {0:>40} ({1:p})", "Rendersystem instance is released", reinterpret_cast<void*>(instance));
+		std::clog << "[Singleton] RenderSystem instance is released (" << std::hex << gInstance << ")" << std::endl;
+		gInstance = nullptr;
 	}
 
 	GLFWwindow const* RenderSystem::getWindow(void) const noexcept
@@ -149,9 +143,38 @@ namespace Toon
 	{
 		return glGetString(GL_RENDERER);
 	}
-	
-	bool RenderSystem::initialUpdate(void) noexcept
+
+	bool RenderSystem::getWindowShouldClose(void) const noexcept
 	{
+		return glfwWindowShouldClose(window);
+	}
+
+	void RenderSystem::setWindowShouldClose(void) noexcept
+	{
+		glfwSetWindowShouldClose(window, GLFW_TRUE);
+	}
+
+	bool RenderSystem::initFromConfigFile(INIParser const& parser) noexcept
+	{
+		auto width		= parser.getData<int>("RenderSystem.client_width");
+		auto height		= parser.getData<int>("RenderSystem.client_height");
+		auto title		= parser.getData<std::string>("RenderSystem.window_title");
+		auto fullscreen = parser.getData<bool>("RenderSystem.default_fullscreen");
+
+		if (AnyOf(!width, !height, !title, !fullscreen))
+		{
+			std::cerr << "[RenderSystem] Resource Parsing Error Occurred." << std::endl;
+			return false;
+		}
+
+		auto initResult = initWindow(title.value(), width.value(), height.value(), fullscreen.value());
+		// if boolean value of initResult is true, it means it have error message in the given optional instance.
+		if (initResult)
+		{
+			std::cerr << "[RenderSystem] Initialization error occurred. " << initResult.value() << std::endl;
+			return false;
+		}
+
 		return true;
 	}
 
@@ -167,59 +190,25 @@ namespace Toon
 		glfwPollEvents();
 	}
 
-	bool RenderSystem::getWindowShouldClose(void) const noexcept
-	{
-		return glfwWindowShouldClose(window);
-	}
-
-	bool RenderSystem::initFromConfigFile(INIParser const& parser) noexcept
-	{
-		auto width		= parser.getData<int>("RenderSystem.client_width");
-		auto height		= parser.getData<int>("RenderSystem.client_height");
-		auto title		= parser.getData<std::string>("RenderSystem.window_title");
-		auto fullscreen = parser.getData<bool>("RenderSystem.default_fullscreen");
-
-		if (AnyOf(!width, !height, !title, !fullscreen))
-		{
-			Logger::getConstInstance().errorMessage("[RenderSystem] Resource Parsing Error Occurred.");
-			return false;
-		}
-
-		auto initResult = initWindow(title.value(), width.value(), height.value(), fullscreen.value());
-		// if boolean value of initResult is true, it means it have error message in the given optional instance.
-		if (initResult)
-		{
-			Logger::getConstInstance().errorMessage("[RenderSystem] Initialization error occurred. {0}", initResult.value());
-			return false;
-		}
-
-		return true;
-	}
-
 	void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mode)
 	{
-		if (gInputSystem == nullptr) return;
-		gInputSystem->processKeyCallback(key, scancode, action, mode);
+		gInstance->processKeyCallback(key, scancode, action, mode);
 	}
 
 	void mousePosCallback(GLFWwindow * window, double xpos, double ypos)
 	{
-		if (gInputSystem == nullptr) return;
-		gInputSystem->processMousePosCallback(xpos, ypos);
+		gInstance->processMousePosCallback(xpos, ypos);
 	}
 	void mouseBtnCallback(GLFWwindow * window, int btn, int action, int mods)
 	{
-		if (gInputSystem == nullptr) return;
-		gInputSystem->processMouseBtnCallback(btn, action, mods);
+		gInstance->processMouseBtnCallback(btn, action, mods);
 	}
 	void scrollCallback(GLFWwindow * window, double xoffset, double yoffset)
 	{
-		if (gInputSystem == nullptr) return;
-		gInputSystem->processScrollCallback(xoffset, yoffset);
+		gInstance->processScrollCallback(xoffset, yoffset);
 	}
 	void resizingCallback(GLFWwindow * window, int newWidth, int newHeight)
 	{
-		if (gInputSystem == nullptr) return;
-		gInputSystem->processResizingCallback(newWidth, newHeight);
+		gInstance->processResizingCallback(newWidth, newHeight);
 	}
 };

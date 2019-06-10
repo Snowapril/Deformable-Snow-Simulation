@@ -1,13 +1,3 @@
-/**
- * @file ToonPlatform.h
- * @author snowapril (https://github.com/Snowapril)
- * @brief provide platform specific macros and functions.
- * @version 0.1
- * @date 2019-05-25
- * 
- * @copyright Copyright (c) 2019
- * 
- */
 #ifndef TOON_PLATFORM_H
 #define TOON_PLATFORM_H
 
@@ -37,6 +27,9 @@ TOON_FORCE_INLINE void SleepCrossPlatform(unsigned long ms) noexcept
 #define		TOON_KEY_COUNT 349
 
 #define 	TOON_KEY_UNKNOWN   -1
+#define		TOON_KEY_RELEASE    0
+#define		TOON_KEY_PRESS      1
+
 #define 	TOON_KEY_SPACE   32
 #define 	TOON_KEY_APOSTROPHE   39 /* ' */
 #define 	TOON_KEY_COMMA   44 /* , */
