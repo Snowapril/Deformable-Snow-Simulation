@@ -7,6 +7,9 @@
 #define FMT_HEADER_ONLY
 #endif
 #include <fmt/format.h>
+#include <chrono>
+#include <ctime>
+#include <filesystem>
 #include "ToonHeaderPostfix.h"
 
 #include "ToonRenderSystem.h"
@@ -42,8 +45,15 @@ namespace Toon
 	RenderSystem::~RenderSystem() noexcept
 	{
 		glfwTerminate();
-		std::clog << "[Singleton] RenderSystem instance is released (" << std::hex << gInstance << ")" << std::endl;
+		std::clog << "[RenderSystem] RenderSystem instance is released (" << std::hex << gInstance << ")" << std::endl;
 		gInstance = nullptr;
+		if (log.is_open())
+		{
+			auto now		= std::chrono::system_clock::now();
+			auto nowTime	= std::chrono::system_clock::to_time_t(now);
+			std::clog << "[RenderSystem] Simulation end at " << std::ctime(&nowTime) << std::endl;
+			log.close();
+		}
 	}
 
 	GLFWwindow const* RenderSystem::getWindow(void) const noexcept
@@ -131,6 +141,9 @@ namespace Toon
 		CHECK_EXTENSION(shader_objects);		// functions related to program and shaders
 #undef CHECK_EXTENSION
 
+		std::clog << "[RenderSystem] Vendor : " << getVendorString()   << std::endl;
+		std::clog << "[RenderSystem] Renderer : " << getRendererString() << std::endl;
+
 		return {}; // Initialization normally complete.
 	}
 
@@ -154,24 +167,63 @@ namespace Toon
 		glfwSetWindowShouldClose(window, GLFW_TRUE);
 	}
 
-	bool RenderSystem::initFromConfigFile(INIParser const& parser) noexcept
+	bool RenderSystem::initFromINIFile(std::string const& iniFilePath) noexcept
 	{
+		INIParser parser(iniFilePath);
+
+		auto rootPath	= parser.getData<std::string>("Common.root_path");
+		auto logPath	= parser.getData<std::string>("Common.log_path");
 		auto width		= parser.getData<int>("RenderSystem.client_width");
 		auto height		= parser.getData<int>("RenderSystem.client_height");
 		auto title		= parser.getData<std::string>("RenderSystem.window_title");
 		auto fullscreen = parser.getData<bool>("RenderSystem.default_fullscreen");
 
-		if (AnyOf(!width, !height, !title, !fullscreen))
+		if (AllOf(rootPath, logPath, width, height, title, fullscreen))
+		{
+			// connect clog and cerr stream to logging ofstream buffer.
+			if (!setOutputStream(rootPath.value(), logPath.value()))
+				return false;
+			// initialize opengl window with config file values.
+			auto initResult = initWindow(title.value(), width.value(), height.value(), fullscreen.value());
+			// if boolean value of initResult is true, it means it have error message in the given optional instance.
+			if (initResult)
+			{
+				std::cerr << "[RenderSystem] Initialization error occurred. " << initResult.value() << std::endl;
+				return false;
+			}
+		}
+		else
 		{
 			std::cerr << "[RenderSystem] Resource Parsing Error Occurred." << std::endl;
 			return false;
 		}
 
-		auto initResult = initWindow(title.value(), width.value(), height.value(), fullscreen.value());
-		// if boolean value of initResult is true, it means it have error message in the given optional instance.
-		if (initResult)
+		return true;
+	}
+
+	bool RenderSystem::setOutputStream(std::string const& rootPath, std::string const& logPath) noexcept
+	{
+		namespace fs = std::filesystem;
+		auto logDirectory = fs::path(rootPath + logPath);
+		if (!fs::exists(logDirectory))
 		{
-			std::cerr << "[RenderSystem] Initialization error occurred. " << initResult.value() << std::endl;
+			fs::create_directory(logDirectory);
+		}
+
+		if (log.is_open()) log.close();
+		
+		log.open(logDirectory.string() + std::string("/engine_log.log"), std::ofstream::out);
+		if (log.is_open())
+		{
+			std::clog.rdbuf(log.rdbuf());
+			std::cerr.rdbuf(log.rdbuf());
+			auto now = std::chrono::system_clock::now();
+			auto nowTime = std::chrono::system_clock::to_time_t(now);
+			std::clog << "[RenderSystem] Simulation start at " << std::ctime(&nowTime) ;
+		}
+		else
+		{
+			std::cerr << "[RenderSystem] Create Logging file failed" << std::endl;
 			return false;
 		}
 

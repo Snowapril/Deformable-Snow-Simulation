@@ -31,6 +31,14 @@ namespace Toon
 		P3_NO_INDEX		= 0x00000200, // position 3 normal X uv X index X
 		P3_INDEX		= 0x00000400, // position 3 normal X uv X index O
 	};
+
+	enum class TOON_OBJECT_FORMAT : unsigned int
+	{
+		VERTEX_ARRAY_OBJECT  = 0x00000000,
+		INDEX_BUFFER_OBJECT  = 0x00000001,
+		VERTEX_BUFFER_OBJECT = 0x00000002,
+	};
+
 };
 
 #endif

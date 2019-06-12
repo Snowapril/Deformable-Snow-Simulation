@@ -5,7 +5,6 @@
 #include "ToonTimer.h"
 #include "ToonRenderSystem.h"
 
-#include <INIParser.h>
 #include <string>
 #include <memory>
 #include <stack>
@@ -29,13 +28,10 @@ namespace Toon
 		void processMouseBtnCallback(int btn, int action, int mods) noexcept override;
 		void processScrollCallback(double xoffset, double yoffset) noexcept override;
 		void processResizingCallback(int newWidth, int newHeight) noexcept override;
-	private:
-		bool initSubsystems(ToonResourceParser::INIParser const&) noexcept;
 	public:
 		ToonRoot() = default;
 		~ToonRoot() noexcept;
 
-		bool initialize(std::string const & configFilePath = "") noexcept;
 		int  runMainLoop(void) noexcept; 
 	private:
 		Timer timer {};

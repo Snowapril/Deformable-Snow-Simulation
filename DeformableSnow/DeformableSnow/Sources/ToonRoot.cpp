@@ -19,28 +19,6 @@ namespace Toon
 	{
 	}	
 
-	bool ToonRoot::initialize(std::string const & configFilePath) noexcept
-	{
-		INIParser parser(configFilePath);
-
-		if (!initSubsystems(parser))
-			return false;
-
-		return true;
-	}
-
-	bool ToonRoot::initSubsystems(INIParser const& parser) noexcept
-	{
-		auto rootPath = parser.getData<std::string>("Common.root_path");
-		auto logPath  = parser.getData<std::string>("Common.log_path");
-
-		if (AnyOf(!rootPath, !logPath)) return false;
-		
-		if (!super_t::initFromConfigFile(parser)) return false;
-
-		return true;
-	}
-
 	bool ToonRoot::initialUpdate(void) noexcept
 	{
 		return true;

@@ -96,6 +96,7 @@
       <AdditionalIncludeDirectories>$(ProjectDir)Precompiled;$(SolutionDir)Libraries\fmt\include;$(ProjectDir)Includes;$(SolutionDir)Libraries\spdlog\include;$(SolutionDir)Libraries\glm;$(SolutionDir)Libraries\glfw\include;$(SolutionDir)ToonResourceParser\Includes;$(SolutionDir)Libraries\GL</AdditionalIncludeDirectories>
       <PrecompiledHeader>Create</PrecompiledHeader>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -131,6 +132,7 @@
       <AdditionalIncludeDirectories>$(ProjectDir)Precompiled;$(SolutionDir)Libraries\fmt\include;$(ProjectDir)Includes;$(SolutionDir)Libraries\spdlog\include;$(SolutionDir)Libraries\glm;$(SolutionDir)Libraries\glfw\include;$(SolutionDir)ToonResourceParser\Includes;$(SolutionDir)Libraries\GL</AdditionalIncludeDirectories>
       <PrecompiledHeader>Create</PrecompiledHeader>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -141,8 +143,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Includes\DeformableSnow.h" />
+    <ClInclude Include="Includes\ToonArrayObject.h" />
     <ClInclude Include="Includes\ToonBaseObject.h" />
     <ClInclude Include="Includes\ToonBitwise.h" />
+    <ClInclude Include="Includes\ToonBufferObject.h" />
     <ClInclude Include="Includes\ToonEffect.h" />
     <ClInclude Include="Includes\ToonStaticCamera.h" />
     <ClInclude Include="Includes\ToonColor.h" />
@@ -162,8 +166,10 @@
     <ClInclude Include="Includes\ToonTexture.h" />
     <ClInclude Include="Includes\ToonTimer.h" />
     <ClInclude Include="Precompiled\stdafx.h" />
+    <ClInclude Include="Sources\ToonArrayObject.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Sources\ToonBufferObject.cpp" />
     <ClCompile Include="Sources\ToonColor.cpp" />
     <ClCompile Include="Sources\ToonObject.cpp" />
     <ClCompile Include="Sources\DeformableSnow.cpp" />
