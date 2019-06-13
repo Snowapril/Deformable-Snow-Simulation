@@ -25,8 +25,6 @@ namespace Toon
 		void bind() const noexcept override;
 		void unbind() const noexcept override;
 		void bindToGPU(bool _deleteAfterPush = false) noexcept override;
-	private:
-		std::vector<std::shared_ptr<BufferObject>> bufferManageArray;
 	};
 };
 

@@ -1,6 +1,8 @@
 #ifndef TOON_FORMAT_H
 #define TOON_FORMAT_H
 
+#include <glew/glew.h>
+
 namespace Toon
 {
 	enum class TOON_VERTEX_FORMAT : unsigned int
@@ -39,6 +41,20 @@ namespace Toon
 		VERTEX_BUFFER_OBJECT = 0x00000002,
 	};
 
+	enum class TOON_PRIMITIVE_FORMAT : unsigned int
+	{
+		POINTS					 = 0x00000000,
+		LINES					 = 0x00000001,
+		LINE_LOOP				 = 0x00000002,
+		LINE_STRIP				 = 0x00000004,
+		TRIANGLES				 = 0x00000008,
+		TRIANGLE_STRIP			 = 0x00000010,
+		TRIANGLE_FAN			 = 0x00000020,
+		LINES_ADJACENCY			 = 0x00000040,
+		LINE_STRIP_ADJACENCY	 = 0x00000080,
+		TRIANGLES_ADJACENCY		 = 0x00000100,
+		TRIANGLE_STRIP_ADJACENCY = 0x00000200
+	};
 };
 
 #endif

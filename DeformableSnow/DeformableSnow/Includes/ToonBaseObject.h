@@ -14,6 +14,11 @@ namespace Toon
 		virtual void bind() const noexcept = 0;
 		virtual void unbind() const noexcept = 0;
 		virtual void bindToGPU(bool deleteAfterPush = false) noexcept = 0;
+
+		inline unsigned int getObjectID() const noexcept
+		{
+			return objectID;
+		}
 	protected:
 		unsigned int objectID { 0U };
 	};

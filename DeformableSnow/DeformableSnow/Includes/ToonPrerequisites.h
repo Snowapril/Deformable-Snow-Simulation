@@ -10,6 +10,8 @@ namespace Toon
 	class Material		;
 	class Effect		;
 	class BufferObject	;
+	class Material		;
+	class ArrayObject	;
 };
 
 

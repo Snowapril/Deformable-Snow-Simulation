@@ -3,6 +3,9 @@
 
 #include "ToonBaseObject.h"
 #include "ToonFormat.h"
+#include "ToonPrerequisites.h"
+
+#include <vector>
 
 namespace Toon
 {
@@ -38,9 +41,18 @@ namespace Toon
 		void bindToGPU(bool _deleteAfterPush = false) noexcept override;
 	public:
 		void setBufferType(TOON_OBJECT_FORMAT _buffer_type) noexcept;
-		
+		void addVertexAttrib(VertexAttrib const& _vAttrib) noexcept;
+		std::shared_ptr<ArrayObject> getVertexArrayObject() const noexcept;
+		inline unsigned int getNumberOfData() const noexcept
+		{
+			return numberOfData;
+		}
 	private:
-		TOON_OBJECT_FORMAT bufferType;
+		void* data = nullptr; // first 8byte is long long data for representing data total size.
+		std::vector< VertexAttrib > vAttribArray;
+		std::shared_ptr< ArrayObject > vaoPtr;
+		unsigned int numberOfData;
+		unsigned int bufferType;
 	};
 };
 
