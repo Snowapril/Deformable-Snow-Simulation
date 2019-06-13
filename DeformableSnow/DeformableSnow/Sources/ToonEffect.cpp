@@ -51,10 +51,6 @@ namespace Toon
 		glUseProgram(objectID);
 	}
 
-	void Effect::bindToGPU(bool _deleteAfterPush) noexcept
-	{
-	}
-
 	int Effect::compileProgram( char const* effectFilePath, char const* programName ) const
 	{
 		bool bParsingSuccess = glfxParseEffectFromFile(objectID, effectFilePath );

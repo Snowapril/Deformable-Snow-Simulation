@@ -4,6 +4,7 @@
 #include "ToonHeaderPrefix.h"
 #include "ToonTimer.h"
 #include "ToonRenderSystem.h"
+#include "DeformableSnow.h"
 
 #include <string>
 #include <memory>
@@ -34,6 +35,7 @@ namespace Toon
 
 		int  runMainLoop(void) noexcept; 
 	private:
+		DeformableSnow deformableSnow{};
 		Timer timer {};
 	};
 };

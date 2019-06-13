@@ -7,7 +7,7 @@ namespace Toon
 	{
 	public:
 		BaseObject() = default;
-		virtual ~BaseObject() = 0;
+		virtual ~BaseObject() noexcept {};
 
 		virtual bool init() noexcept = 0;
 		virtual void release() noexcept = 0;

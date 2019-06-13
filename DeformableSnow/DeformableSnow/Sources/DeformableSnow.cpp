@@ -18,6 +18,8 @@ namespace Toon
 
 	bool DeformableSnow::resetTerrain(int _numVerticesPerUnit) noexcept
 	{
+		int numRow = height * _numVerticesPerUnit.numCol = width * _numVerticesPerUnit;
+
 		return true;
 	}
 

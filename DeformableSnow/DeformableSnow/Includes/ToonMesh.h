@@ -24,11 +24,13 @@ namespace Toon
 		~Mesh() noexcept;
 	public:
 		void render(unsigned int _primitiveFormat) const noexcept;
-		void renderInstanced(unsigned int _primitiveFormat) const noexcept;
+		void renderIndexed(unsigned int _primitiveFormat) const noexcept;
 
-		void addBufferObject(std::shared_ptr< BufferObject > _bufferPtr) noexcept;
+		void addVertexBufferObject(std::shared_ptr< VertexBufferObject > _bufferPtr) noexcept;
+		void addIndexBufferObject(std::shared_ptr< IndexBufferObject > _bufferPtr) noexcept;
 	private:
-		std::vector<std::shared_ptr<BufferObject>> bufferManageArray;
+		std::vector<std::shared_ptr<VertexBufferObject>> vboArray;
+		std::vector<std::shared_ptr< IndexBufferObject>> iboArray;
 	};
 };
 

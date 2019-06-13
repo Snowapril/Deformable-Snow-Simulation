@@ -1,7 +1,8 @@
 #include "stdafx.h"
 #include "ToonMesh.h"
 
-#include "ToonBufferObject.h"
+#include "ToonVertexBufferObject.h"
+#include "ToonIndexBufferObject.h"
 #include "ToonArrayObject.h"
 
 #include <glew/glew.h>
@@ -9,50 +10,65 @@
 namespace Toon
 {
 	Mesh::Mesh(Mesh const & other) noexcept
+		: vboArray(other.vboArray), iboArray(other.iboArray)
 	{
 	}
 
 	Mesh & Mesh::operator=(Mesh const & other) noexcept
 	{
+		if (&other != this)
+		{
+			vboArray = other.vboArray;
+			iboArray = other.iboArray;
+		}
 		return *this;
 	}
 
 	Mesh::Mesh(Mesh&& other) noexcept
+		: vboArray(std::move(other.vboArray)), iboArray(std::move(other.iboArray))
 	{
-
 	}
 
 	Mesh& Mesh::operator=(Mesh&& other) noexcept
 	{
+		if (&other != this)
+		{
+			vboArray = std::move(other.vboArray);
+			iboArray = std::move(other.iboArray);
+		}
 		return *this;
 	}
 
 	Mesh::~Mesh() noexcept
 	{
+		vboArray.clear();
+		iboArray.clear();
 	}
 
 	void Mesh::render(unsigned int _primitiveFormat) const noexcept
 	{
-		unsigned int previousID = 0U;
-		for (auto bufferObj : bufferManageArray)
+		for (auto const& vbo : vboArray)
 		{
-			unsigned int currentID = bufferObj->getVertexArrayObject()->getObjectID();
-			if (previousID != currentID)
-			{
-				bufferObj->bind();
-				previousID = currentID;
-			}
-			glDrawElements(_primitiveFormat, buffer		)
+			vbo->getVertexArrayObject()->bind();
+			glDrawArrays(_primitiveFormat, 0, vbo->getNumberOfVertices());
 		}
 	}
 
-	void Mesh::renderInstanced(unsigned int _primitiveFormat) const noexcept
+	void Mesh::renderIndexed(unsigned int _primitiveFormat) const noexcept
 	{
-
+		for (auto const& ibo : iboArray)
+		{
+			ibo->getVertexArrayObject()->bind();
+			glDrawElements(_primitiveFormat, ibo->getNumberOfIndices(), GL_UNSIGNED_INT, reinterpret_cast<void*>(0U));
+		}
 	}
 
-	void Mesh::addBufferObject(std::shared_ptr<BufferObject> _bufferPtr) noexcept
+	void Mesh::addVertexBufferObject(std::shared_ptr< VertexBufferObject > _bufferPtr) noexcept
 	{
-		bufferManageArray.push_back(_bufferPtr);
+		vboArray.push_back(_bufferPtr);
+	}
+	void Mesh::addIndexBufferObject(std::shared_ptr< IndexBufferObject > _bufferPtr) noexcept
+	{
+		iboArray.push_back(_bufferPtr);
 	}
 };

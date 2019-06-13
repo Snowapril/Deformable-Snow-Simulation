@@ -1,44 +1,40 @@
 #ifndef TOON_FORMAT_H
 #define TOON_FORMAT_H
 
-#include <glew/glew.h>
-
 namespace Toon
 {
+	struct DataFormat
+	{
+		unsigned int stride = 0U;
+		unsigned int dataType = 0U;
+		unsigned int size = 0U;
+		bool bNormalized = false;
+
+		DataFormat() = default;
+		DataFormat(unsigned int size, unsigned int dataType, bool _bNormalized, unsigned int stride) noexcept;
+
+		static DataFormat R32G32_SINT;
+		static DataFormat R32G32_UINT;
+		static DataFormat R32G32_SNORM;
+		static DataFormat R32G32_UNORM;
+		static DataFormat R32G32_FLOAT;
+		static DataFormat R32G32B32_SINT;
+		static DataFormat R32G32B32_UINT;
+		static DataFormat R32G32B32_SNORM;
+		static DataFormat R32G32B32_UNORM;
+		static DataFormat R32G32B32_FLOAT;
+		static DataFormat R32G32B32A32_SINT;
+		static DataFormat R32G32B32A32_UINT;
+		static DataFormat R32G32B32A32_SNORM;
+		static DataFormat R32G32B32A32_UNORM;
+		static DataFormat R32G32B32A32_FLOAT;
+	};
+
 	enum class TOON_VERTEX_FORMAT : unsigned int
 	{
-		R8G8B8A8_UINT		= 0x00000000, //  32 bit
-		R8G8B8A8_SINT		= 0x00000001, //  32 bit
-		R8G8B8A8_FLOAT		= 0x00000002, //  32 bit
-		R16G16B16A16_UINT	= 0x00000004, //  64 bit
-		R16G16B16A16_SINT	= 0x00000008, //  64 bit
-		R16G16B16A16_FLOAT	= 0x00000010, //  64 bit
-		R32G32B32A32_UINT	= 0x00000020, // 128 bit
-		R32G32B32A32_SINT	= 0x00000040, // 128 bit
-		R32G32B32A32_FLOAT	= 0x00000080, // 128 bit
-	};
-
-	enum class TOON_MESH_FORMAT : unsigned int
-	{
-		P3N3U2_NO_INDEX = 0x00000000, // position 3 normal 3 uv 2 index X
-		P3N3U2_INDEX	= 0x00000001, // position 3 normal 3 uv 2 index O
-		P3N3_NO_INDEX	= 0x00000002, // position 3 normal 3 uv X index X
-		P3N3_INDEX		= 0x00000004, // position 3 normal 3 uv X index O
-		P3U2_NO_INDEX	= 0x00000008, // position 3 normal X uv 2 index X
-		P3U2_INDEX		= 0x00000010, // position 3 normal X uv 2 index O
-		U2_NO_INDEX		= 0x00000020, // position X normal X uv 2 index X
-		U2_INDEX		= 0x00000040, // position X normal X uv 2 index O
-		N3_NO_INDEX		= 0x00000080, // position X normal 3 uv X index X
-		N3_INDEX		= 0x00000100, // position X normal 3 uv X index O
-		P3_NO_INDEX		= 0x00000200, // position 3 normal X uv X index X
-		P3_INDEX		= 0x00000400, // position 3 normal X uv X index O
-	};
-
-	enum class TOON_OBJECT_FORMAT : unsigned int
-	{
-		VERTEX_ARRAY_OBJECT  = 0x00000000,
-		INDEX_BUFFER_OBJECT  = 0x00000001,
-		VERTEX_BUFFER_OBJECT = 0x00000002,
+		POSITION	= 0x00000001,
+		NORMAL		= 0x00000002,
+		UV			= 0x00000004
 	};
 
 	enum class TOON_PRIMITIVE_FORMAT : unsigned int

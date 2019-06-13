@@ -9,7 +9,8 @@ namespace Toon
 	class Mesh			;
 	class Material		;
 	class Effect		;
-	class BufferObject	;
+	class VertexBufferObject;
+	class IndexBufferObject	;
 	class Material		;
 	class ArrayObject	;
 };
