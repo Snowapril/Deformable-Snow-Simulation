@@ -9,7 +9,7 @@ namespace Toon
 							Camera class  definition
 	****************************************************************************/
 	StaticCamera::StaticCamera(glm::vec3 const& _position, glm::vec3 const& _direction) noexcept
-		: position(_position), direction(_direction)
+		: viewMatrix{}, projectionMatrix{}, position(_position), direction(_direction)
 	{
 	}
 
@@ -49,13 +49,19 @@ namespace Toon
 		return *this;
 	}
 
+	void StaticCamera::setTransformation(glm::vec3 const& _pos, glm::vec3 const& _dir) noexcept
+	{
+		position  = _pos;
+		direction = _dir;
+	}
+
 	void StaticCamera::setViewMatrix(glm::vec3 const& _up) noexcept
 	{
 		viewMatrix = glm::lookAt(position, position + direction, _up);
 	}
-	void StaticCamera::setOrthogonalMatrix(glm::vec3 const& _left, glm::vec3 const& _right, glm::vec3 const& _top, glm::vec3 const& _bottom) noexcept
+	void StaticCamera::setOrthogonalMatrix(float _left, float _right, float _top, float _bottom, float _zNear, float _zFar) noexcept
 	{
-		projectionMatrix = glm::ortho(_left, _right, _top, _bottom);
+		projectionMatrix = glm::ortho(_left, _right, _top, _bottom, _zNear, _zFar);
 	}
 	void StaticCamera::setPerspectiveMatrix(float _fov, float _aspect, float _zNear, float _zFar) noexcept
 	{

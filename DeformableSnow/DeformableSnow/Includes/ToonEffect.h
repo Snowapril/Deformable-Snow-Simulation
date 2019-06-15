@@ -7,6 +7,7 @@ namespace Toon
 {
 	class Effect : public BaseObject
 	{
+		using super_t = BaseObject;
 	public:
 		Effect() = default;
 		Effect(Effect const&) noexcept;

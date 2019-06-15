@@ -1,10 +1,14 @@
 #include "stdafx.h"
 #include "ToonEffect.h"
 
-#include <GLFX/glfx.h>
+#include <gl/glfx.h>
 #include <glew/glew.h>
 #include <iostream>
 #include <string>
+
+/*
+Check GLFX document at https://github.com/maizensh/glfx
+*/
 
 namespace Toon
 {
@@ -12,21 +16,34 @@ namespace Toon
 						GL3PlusEffect class definition
 	****************************************************************************/
 
-	Effect::Effect(Effect const&) noexcept
+	Effect::Effect(Effect const& other) noexcept
+		: super_t(other)
 	{
 	}
 
-	Effect& Effect::operator=(Effect const&) noexcept
+	Effect& Effect::operator=(Effect const& other) noexcept
 	{
+		if (this != &other)
+		{
+			objectID = other.objectID;
+		}
+
 		return *this;
 	}
 
-	Effect::Effect(Effect&&) noexcept
+	Effect::Effect(Effect&& other) noexcept
+		: super_t(std::move(other))
 	{
 	}
 
-	Effect& Effect::operator=(Effect&&) noexcept
+	Effect& Effect::operator=(Effect&& other) noexcept
 	{
+		if (this != &other)
+		{
+			objectID = other.objectID;
+			other.objectID = 0U;
+		}
+
 		return *this;
 	}
 

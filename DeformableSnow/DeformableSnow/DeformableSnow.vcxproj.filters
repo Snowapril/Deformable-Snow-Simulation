@@ -24,7 +24,6 @@
     <ClInclude Include="Includes\ToonBaseObject.h" />
     <ClInclude Include="Includes\ToonEffect.h" />
     <ClInclude Include="Includes\ToonArrayObject.h" />
-    <ClInclude Include="Sources\ToonArrayObject.cpp" />
     <ClInclude Include="Includes\ToonVertexBufferObject.h" />
     <ClInclude Include="Includes\ToonIndexBufferObject.h" />
     <ClInclude Include="Includes\ToonNoiseGenerator.h" />
@@ -44,8 +43,12 @@
     <ClCompile Include="Sources\ToonVertexBufferObject.cpp" />
     <ClCompile Include="Sources\ToonIndexBufferObject.cpp" />
     <ClCompile Include="Sources\ToonFormat.cpp" />
+    <ClCompile Include="Includes\ToonArrayObject.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="Shaders\snow.fx" />
   </ItemGroup>
 </Project>

@@ -3,6 +3,7 @@
 
 #include "ToonBaseObject.h"
 #include "ToonPrerequisites.h"
+#include "ToonFormat.h"
 
 #include <vector>
 #include <memory>
@@ -23,8 +24,8 @@ namespace Toon
 		Mesh& operator=(Mesh&&) noexcept;
 		~Mesh() noexcept;
 	public:
-		void render(unsigned int _primitiveFormat) const noexcept;
-		void renderIndexed(unsigned int _primitiveFormat) const noexcept;
+		void render(PrimitiveFormat _primitiveFormat) const noexcept;
+		void renderIndexed(PrimitiveFormat _primitiveFormat) const noexcept;
 
 		void addVertexBufferObject(std::shared_ptr< VertexBufferObject > _bufferPtr) noexcept;
 		void addIndexBufferObject(std::shared_ptr< IndexBufferObject > _bufferPtr) noexcept;

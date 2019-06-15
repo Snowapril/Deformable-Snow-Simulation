@@ -25,4 +25,20 @@ namespace Toon
 		: size(_size), dataType(_dataType), bNormalized(_bNormalized), stride(_stride)
 	{
 	}
+
+	PrimitiveFormat PrimitiveFormat::POINTS						= PrimitiveFormat(GL_POINTS);
+	PrimitiveFormat PrimitiveFormat::LINES						= PrimitiveFormat(GL_LINES);
+	PrimitiveFormat PrimitiveFormat::LINE_LOOP					= PrimitiveFormat(GL_LINE_LOOP);
+	PrimitiveFormat PrimitiveFormat::LINE_STRIP					= PrimitiveFormat(GL_LINE_STRIP);
+	PrimitiveFormat PrimitiveFormat::TRIANGLES					= PrimitiveFormat(GL_TRIANGLES);
+	PrimitiveFormat PrimitiveFormat::TRIANGLE_STRIP				= PrimitiveFormat(GL_TRIANGLE_STRIP);
+	PrimitiveFormat PrimitiveFormat::TRIANGLE_FAN				= PrimitiveFormat(GL_TRIANGLE_FAN);
+	PrimitiveFormat PrimitiveFormat::LINES_ADJACENCY			= PrimitiveFormat(GL_LINES_ADJACENCY);
+	PrimitiveFormat PrimitiveFormat::LINE_STRIP_ADJACENCY		= PrimitiveFormat(GL_LINE_STRIP_ADJACENCY);
+	PrimitiveFormat PrimitiveFormat::TRIANGLES_ADJACENCY		= PrimitiveFormat(GL_TRIANGLES_ADJACENCY);
+	PrimitiveFormat PrimitiveFormat::TRIANGLE_STRIP_ADJACENCY	= PrimitiveFormat(GL_TRIANGLE_STRIP_ADJACENCY);
+
+	PrimitiveFormat::PrimitiveFormat(unsigned int _mode) noexcept
+		: mode(_mode) {};
+
 };

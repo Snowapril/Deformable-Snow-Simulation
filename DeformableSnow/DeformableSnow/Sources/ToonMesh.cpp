@@ -45,21 +45,21 @@ namespace Toon
 		iboArray.clear();
 	}
 
-	void Mesh::render(unsigned int _primitiveFormat) const noexcept
+	void Mesh::render(PrimitiveFormat _primitiveFormat) const noexcept
 	{
 		for (auto const& vbo : vboArray)
 		{
 			vbo->getVertexArrayObject()->bind();
-			glDrawArrays(_primitiveFormat, 0, vbo->getNumberOfVertices());
+			glDrawArrays(_primitiveFormat.mode, 0, vbo->getNumberOfVertices());
 		}
 	}
 
-	void Mesh::renderIndexed(unsigned int _primitiveFormat) const noexcept
+	void Mesh::renderIndexed(PrimitiveFormat _primitiveFormat) const noexcept
 	{
 		for (auto const& ibo : iboArray)
 		{
 			ibo->getVertexArrayObject()->bind();
-			glDrawElements(_primitiveFormat, ibo->getNumberOfIndices(), GL_UNSIGNED_INT, reinterpret_cast<void*>(0U));
+			glDrawElements(_primitiveFormat.mode, ibo->getNumberOfIndices(), GL_UNSIGNED_INT, nullptr);
 		}
 	}
 

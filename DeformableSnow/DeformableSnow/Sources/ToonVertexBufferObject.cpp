@@ -5,7 +5,13 @@
 
 namespace Toon
 {
+	VertexBufferObject::VertexBufferObject(std::shared_ptr<ArrayObject> _vao) noexcept
+		: vaoPtr(_vao)
+	{
+	}
+
 	VertexBufferObject::VertexBufferObject(VertexBufferObject const& other) noexcept
+		: super_t(other)
 	{
 
 	}
@@ -14,13 +20,14 @@ namespace Toon
 	{
 		if (this != &other)
 		{
-
+			objectID = other.objectID;
 		}
 
 		return *this;
 	}
 
 	VertexBufferObject::VertexBufferObject(VertexBufferObject&& other) noexcept
+		: super_t(std::move(other))
 	{
 
 	}
@@ -29,7 +36,8 @@ namespace Toon
 	{
 		if (this != &other)
 		{
-
+			objectID = other.objectID;
+			other.objectID = 0U;
 		}
 
 		return *this;
@@ -90,8 +98,16 @@ namespace Toon
 		}
 	}
 
-	void VertexBufferObject::addVertexDescription(VertexAttribData _description) noexcept
+	void VertexBufferObject::addVertexDescription(VertexAttribData _description, unsigned int _numVertices) noexcept
 	{
+		unsigned int numData = _numVertices * _description.description.size;
+		void* data = new float[numData];
+		std::memcpy(data, 
+					_description.data, 
+					numData * sizeof(float));
+		
+		_description.data = data;
 		descriptionArray.push_back(_description);
+		numberOfVertices = _numVertices;
 	}
 };

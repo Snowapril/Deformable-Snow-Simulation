@@ -93,7 +93,7 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>$(ProjectDir)Precompiled;$(SolutionDir)Libraries\fmt\include;$(ProjectDir)Includes;$(SolutionDir)Libraries\spdlog\include;$(SolutionDir)Libraries\glm;$(SolutionDir)Libraries\glfw\include;$(SolutionDir)ToonResourceParser\Includes;$(SolutionDir)Libraries\GL</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)Precompiled;$(SolutionDir)Libraries\fmt\include;$(ProjectDir)Includes;$(SolutionDir)Libraries\spdlog\include;$(SolutionDir)Libraries\glm;$(SolutionDir)Libraries\glfw\include;$(SolutionDir)ToonResourceParser\Includes;$(SolutionDir)Libraries\GL;$(SolutionDir)Libraries\glfx\include</AdditionalIncludeDirectories>
       <PrecompiledHeader>Create</PrecompiledHeader>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -129,7 +129,7 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>$(ProjectDir)Precompiled;$(SolutionDir)Libraries\fmt\include;$(ProjectDir)Includes;$(SolutionDir)Libraries\spdlog\include;$(SolutionDir)Libraries\glm;$(SolutionDir)Libraries\glfw\include;$(SolutionDir)ToonResourceParser\Includes;$(SolutionDir)Libraries\GL</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)Precompiled;$(SolutionDir)Libraries\fmt\include;$(ProjectDir)Includes;$(SolutionDir)Libraries\spdlog\include;$(SolutionDir)Libraries\glm;$(SolutionDir)Libraries\glfw\include;$(SolutionDir)ToonResourceParser\Includes;$(SolutionDir)Libraries\GL;$(SolutionDir)Libraries\glfx\include</AdditionalIncludeDirectories>
       <PrecompiledHeader>Create</PrecompiledHeader>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -168,9 +168,9 @@
     <ClInclude Include="Includes\ToonTexture.h" />
     <ClInclude Include="Includes\ToonTimer.h" />
     <ClInclude Include="Precompiled\stdafx.h" />
-    <ClInclude Include="Sources\ToonArrayObject.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Includes\ToonArrayObject.cpp" />
     <ClCompile Include="Sources\ToonFormat.cpp" />
     <ClCompile Include="Sources\ToonIndexBufferObject.cpp" />
     <ClCompile Include="Sources\ToonVertexBufferObject.cpp" />
@@ -188,6 +188,9 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="Shaders\snow.fx" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

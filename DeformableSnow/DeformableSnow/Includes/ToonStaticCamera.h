@@ -22,8 +22,9 @@ namespace Toon
 		StaticCamera& operator=(StaticCamera&&) noexcept;
 
 	public:	
+		void setTransformation(glm::vec3 const& _pos, glm::vec3 const& _dir) noexcept;
 		void setViewMatrix(glm::vec3 const& _up) noexcept;
-		void setOrthogonalMatrix(glm::vec3 const& _left, glm::vec3 const& _right, glm::vec3 const& _top, glm::vec3 const& _bottom) noexcept;
+		void setOrthogonalMatrix(float _left, float _right, float _top, float _bottom, float _zNear, float _zFar) noexcept;
 		void setPerspectiveMatrix(float _fov, float _aspect, float _zNear, float _zFar) noexcept;
 
 		TOON_FORCE_INLINE glm::mat4 const& getView() const noexcept

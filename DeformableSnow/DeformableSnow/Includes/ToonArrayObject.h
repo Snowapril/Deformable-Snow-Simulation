@@ -2,10 +2,6 @@
 #define TOON_ARRAY_OBJECT_H
 
 #include "ToonBaseObject.h"
-#include "ToonPrerequisites.h"
-
-#include <vector>
-#include <memory>
 
 namespace Toon
 {

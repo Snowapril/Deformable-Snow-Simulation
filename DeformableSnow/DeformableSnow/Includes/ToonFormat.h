@@ -37,19 +37,24 @@ namespace Toon
 		UV			= 0x00000004
 	};
 
-	enum class TOON_PRIMITIVE_FORMAT : unsigned int
+	struct PrimitiveFormat
 	{
-		POINTS					 = 0x00000000,
-		LINES					 = 0x00000001,
-		LINE_LOOP				 = 0x00000002,
-		LINE_STRIP				 = 0x00000004,
-		TRIANGLES				 = 0x00000008,
-		TRIANGLE_STRIP			 = 0x00000010,
-		TRIANGLE_FAN			 = 0x00000020,
-		LINES_ADJACENCY			 = 0x00000040,
-		LINE_STRIP_ADJACENCY	 = 0x00000080,
-		TRIANGLES_ADJACENCY		 = 0x00000100,
-		TRIANGLE_STRIP_ADJACENCY = 0x00000200
+		unsigned int mode{ 0U };
+
+		PrimitiveFormat() = default;
+		PrimitiveFormat(unsigned int _mode) noexcept;
+
+		static PrimitiveFormat POINTS;
+		static PrimitiveFormat LINES;
+		static PrimitiveFormat LINE_LOOP;
+		static PrimitiveFormat LINE_STRIP;
+		static PrimitiveFormat TRIANGLES;
+		static PrimitiveFormat TRIANGLE_STRIP;
+		static PrimitiveFormat TRIANGLE_FAN;
+		static PrimitiveFormat LINES_ADJACENCY;
+		static PrimitiveFormat LINE_STRIP_ADJACENCY;
+		static PrimitiveFormat TRIANGLES_ADJACENCY;
+		static PrimitiveFormat TRIANGLE_STRIP_ADJACENCY;
 	};
 };
 

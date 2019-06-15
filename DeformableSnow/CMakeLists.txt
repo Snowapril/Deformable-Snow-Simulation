@@ -38,6 +38,7 @@ set(CMAKE_MACOSX_RPATH ON)
 
 add_subdirectory(Libraries/googletest EXCLUDE_FROM_ALL)
 add_subdirectory(Libraries/glfw EXCLUDE_FROM_ALL)
+add_subdirectory(Libraries/glfx EXCLUDE_FROM_ALL)
 # add_subdirectory(Libraries/thrust EXCLUDE_FROM_ALL)
 		
 add_subdirectory(DeformableSnow)

@@ -5,6 +5,7 @@
 #include "ToonRenderSystem.h"
 #include "ToonExceptions.h"
 #include "ToonRenderSystem.h"
+#include "ToonArrayObject.h"
 
 #include <algorithm>
 
@@ -17,7 +18,10 @@ namespace Toon
 
 	ToonRoot::~ToonRoot()
 	{
-	}	
+		snowShader.release();
+		bufferState->release();
+		bufferState.reset();
+	}
 
 	bool ToonRoot::initialUpdate(void) noexcept
 	{
@@ -35,6 +39,7 @@ namespace Toon
 	void ToonRoot::preDrawScene(void) const noexcept
 	{
 		// here
+		deformableSnow.preDrawScene();
 
 		super_t::preDrawScene();
 	}
@@ -42,8 +47,28 @@ namespace Toon
 	void ToonRoot::drawScene(void) const noexcept
 	{
 		// here
+		deformableSnow.drawScene();
 
 		super_t::drawScene();
+	}
+
+	bool ToonRoot::initSceneObjects() noexcept
+	{
+		snowShader.init();
+		snowShader.compileProgram("Shaders/snow.fx");
+
+		bufferState = std::make_shared<ArrayObject>();
+		bufferState->init();
+
+		mainCam.setTransformation(glm::vec3(1.0f, 1.0f, 1.0f), glm::normalize(-glm::vec3(1.0f, 1.0f, 1.0f)));
+		mainCam.setViewMatrix(glm::vec3(0.0f, 1.0f, 0.0f));
+		mainCam.setPerspectiveMatrix(45.0f, static_cast<float>(clientWidth) / clientHeight, 0.1f, 500.0f);
+
+		deformableSnow.resetTerrain(bufferState, 5);
+
+		timer.reset();
+
+		return true;
 	}
 
 	int ToonRoot::runMainLoop(void) noexcept

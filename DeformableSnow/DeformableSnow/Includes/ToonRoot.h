@@ -2,9 +2,12 @@
 #define TOON_ROOT_H
 
 #include "ToonHeaderPrefix.h"
+#include "ToonPrerequisites.h"
 #include "ToonTimer.h"
 #include "ToonRenderSystem.h"
 #include "DeformableSnow.h"
+#include "ToonStaticCamera.h"
+#include "ToonEffect.h"
 
 #include <string>
 #include <memory>
@@ -33,10 +36,14 @@ namespace Toon
 		ToonRoot() = default;
 		~ToonRoot() noexcept;
 
-		int  runMainLoop(void) noexcept; 
+		bool initSceneObjects() noexcept;
+		int  runMainLoop(void) noexcept;
 	private:
+		std::shared_ptr<ArrayObject> bufferState;
 		DeformableSnow deformableSnow{};
-		Timer timer {};
+		StaticCamera mainCam;
+		Timer timer{};
+		Effect snowShader{};
 	};
 };
 

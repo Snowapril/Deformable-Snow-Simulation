@@ -7,6 +7,7 @@ int main(void)
 	int exitCode { -1 };
 
 	bool bInitResult = root.initFromINIFile("../Resources/engine_config.ini");
+	root.initSceneObjects();
 
 	if (bInitResult == true) 
 		exitCode = root.runMainLoop();

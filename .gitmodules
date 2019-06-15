@@ -10,3 +10,6 @@
 [submodule "DeformableSnow/Libraries/glfw"]
 	path = DeformableSnow/Libraries/glfw
 	url = https://github.com/glfw/glfw
+[submodule "DeformableSnow/Libraries/glfx"]
+	path = DeformableSnow/Libraries/glfx
+	url = https://github.com/maizensh/glfx

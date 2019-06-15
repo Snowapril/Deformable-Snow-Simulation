@@ -5,21 +5,38 @@
 
 namespace Toon
 {
-	IndexBufferObject::IndexBufferObject(IndexBufferObject const&) noexcept
+	IndexBufferObject::IndexBufferObject(std::shared_ptr<ArrayObject> _vao) noexcept
+		: vaoPtr(_vao)
+	{
+	}
+	IndexBufferObject::IndexBufferObject(IndexBufferObject const& other) noexcept
+		: super_t(other)
 	{
 	}
 
-	IndexBufferObject& IndexBufferObject::operator=(IndexBufferObject const&) noexcept
+	IndexBufferObject& IndexBufferObject::operator=(IndexBufferObject const& other) noexcept
 	{
+		if (this != &other)
+		{
+			objectID = other.objectID;
+		}
+
 		return *this;
 	}
 
-	IndexBufferObject::IndexBufferObject(IndexBufferObject&&) noexcept
+	IndexBufferObject::IndexBufferObject(IndexBufferObject&& other) noexcept
+		: super_t(std::move(other))
 	{
 	}
 
-	IndexBufferObject& IndexBufferObject::operator=(IndexBufferObject&&) noexcept
+	IndexBufferObject& IndexBufferObject::operator=(IndexBufferObject&& other) noexcept
 	{
+		if (this != &other)
+		{
+			objectID = other.objectID;
+			other.objectID = 0U;
+		}
+
 		return *this;
 	}
 
@@ -67,8 +84,12 @@ namespace Toon
 		}
 	}
 
-	void IndexBufferObject::setIndicesPointer(void* _data) noexcept
+	void IndexBufferObject::setIndicesPointer(void* _data, unsigned int _numIndices) noexcept
 	{
-		data = _data;
+		this->data = new float[_numIndices];
+		std::memcpy(this->data, 
+					_data, 
+					_numIndices * sizeof(unsigned int));
+		numberOfIndices = _numIndices;
 	}
 };

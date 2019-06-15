@@ -7,6 +7,27 @@ namespace Toon
 	{
 	public:
 		BaseObject() = default;
+		BaseObject(BaseObject const& other) noexcept
+			: objectID(other.objectID) {};
+		BaseObject& operator=(BaseObject const& other) noexcept
+		{
+			if (this != &other)
+			{
+				objectID = other.objectID;
+			}
+			return *this;
+		}
+		BaseObject(BaseObject&& other) noexcept
+			: objectID(other.objectID) {};
+		BaseObject& operator=(BaseObject&& other) noexcept
+		{
+			if (this != &other)
+			{
+				objectID = other.objectID;
+				other.objectID = 0U;
+			}
+			return *this;
+		}
 		virtual ~BaseObject() noexcept {};
 
 		virtual bool init() noexcept = 0;

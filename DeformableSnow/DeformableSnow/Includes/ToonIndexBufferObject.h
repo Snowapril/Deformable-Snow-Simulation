@@ -16,6 +16,7 @@ namespace Toon
 		using super_t = BaseObject;
 	public:
 		IndexBufferObject() = default;
+		IndexBufferObject(std::shared_ptr<ArrayObject>) noexcept;
 		IndexBufferObject(IndexBufferObject const&) noexcept;
 		IndexBufferObject& operator=(IndexBufferObject const&) noexcept;
 		IndexBufferObject(IndexBufferObject&&) noexcept;
@@ -28,7 +29,7 @@ namespace Toon
 		void unbind() const noexcept override;
 		void bindToGPU(bool _deleteAfterPush = false) noexcept override;
 	public:
-		void setIndicesPointer(void* _data) noexcept;
+		void setIndicesPointer(void* _data, unsigned int _numIndices) noexcept;
 		TOON_FORCE_INLINE std::shared_ptr<ArrayObject> getVertexArrayObject() const noexcept
 		{
 			return vaoPtr;

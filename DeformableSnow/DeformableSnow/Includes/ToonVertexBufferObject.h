@@ -13,9 +13,10 @@ namespace Toon
 {
 	struct VertexAttribData
 	{
-		void* data;
+		void* data; // first 1byte represents reference count.
 		DataFormat description;
 		int index;
+		int numVertices;
 	};
 
 	class VertexBufferObject : public BaseObject
@@ -23,6 +24,7 @@ namespace Toon
 		using super_t = BaseObject;
 	public:
 		VertexBufferObject() = default;
+		VertexBufferObject(std::shared_ptr<ArrayObject> _vao) noexcept;
 		VertexBufferObject(VertexBufferObject const&) noexcept;
 		VertexBufferObject& operator=(VertexBufferObject const&) noexcept;
 		VertexBufferObject(VertexBufferObject&&) noexcept;
@@ -35,7 +37,11 @@ namespace Toon
 		void unbind() const noexcept override;
 		void bindToGPU(bool _deleteAfterPush = false) noexcept override;
 	public:
-		void addVertexDescription(VertexAttribData _description) noexcept;
+		void addVertexDescription(VertexAttribData _description, unsigned int _numVertices) noexcept;
+		void setVertexArrayObject(std::shared_ptr<ArrayObject> _vao) noexcept
+		{
+			vaoPtr = _vao;
+		}
 		TOON_FORCE_INLINE std::shared_ptr<ArrayObject> getVertexArrayObject() const noexcept
 		{
 			return vaoPtr;
